@@ -8,7 +8,6 @@ typedef struct node{
     struct node* rightChild;
 }node;
 
-
 node* LL(node * temp){
     node *newNode = temp->leftChild;
     if(temp->leftChild!=NULL){
@@ -84,24 +83,27 @@ node* add(node* p, int val){
     }
     return p;
 }
-node* addBST(node* p, int val){
-    if(p==NULL){
-        p = malloc(sizeof(node));
-        p->data = val;
-        p->leftChild = NULL;
-        p->rightChild = NULL;
-    }else if(p->data < val){
-        p->rightChild = addBST(p->rightChild,val);
-    }else if(p->data > val){
-        p->leftChild = addBST(p->leftChild,val);
-    }
-    return p;
-}
 void preOrder(node* p){
     if(p != NULL){
         printf("%d ",p->data);
         preOrder(p->leftChild);
         preOrder(p->rightChild);
+    }
+}
+
+void postOrder(node* p){
+    if(p != NULL){
+        postOrder(p->leftChild);
+        postOrder(p->rightChild);
+        printf("%d ",p->data);
+    }
+}
+
+void inOrder(node* p){
+    if(p != NULL){
+        inOrder(p->leftChild);
+        printf("%d ",p->data);
+        inOrder(p->rightChild);
     }
 }
 void deletion(node* p, int val){
@@ -140,21 +142,37 @@ void deletion(node* p, int val){
     }
 }
 void main(){
+    setbuf(stdout, 0);
     node* root = NULL;
-    node* BSTroot = NULL;
-    printf("Insert node to AVL tree:\n");
-    int count = 0;
     int temp = 0;
     while (1) {
+        printf("Select Option 1 : Insertion , 2 : Deletion , 3 : Traversal , ELSE : Exit\n");
         scanf("%d", &temp);
-        count++;
-        root = add(root, temp);
-        BSTroot = addBST(BSTroot,temp);
-        if (count == 9)break;
+        if(temp == 1){
+            printf("Input value : ");
+            int val;
+            scanf("%d", &val);
+            printf("\n");
+            root = add(root,val);
+        }
+        else if(temp == 2){
+            printf("Delete value : ");
+            int val;
+            scanf("%d", &val);
+            printf("\n");
+            deletion(root,val);
+        }
+        else if(temp == 3){
+            printf("Select Traversal Option 1 : preorder , 2 : inorder , 3 : postorder\n");
+            int n;
+            scanf("%d", &n);
+            if(n == 1)preOrder(root);
+            else if(n==2)inOrder(root);
+            else if(n==3)postOrder(root);
+        }
+        else{
+            printf("Exit....\n");
+            break;
+        }
     }
-    printf("\n\nPreorder traversal of the constructed AVL tree is\n");
-    preOrder(BSTroot);
-    deletion(root,10);
-    printf("\nPreorder traversal after deletion of 10\n");
-    preOrder(root);
 }
