@@ -106,7 +106,7 @@ void inOrder(node* p){
         inOrder(p->rightChild);
     }
 }
-void deletion(node* p, int val){
+node* deletion(node* p, int val){
     node* temp;
     if(p != NULL && p->leftChild !=NULL && val == p->leftChild->data){
         if(p->leftChild->leftChild != NULL){
@@ -132,14 +132,35 @@ void deletion(node* p, int val){
             p->rightChild = temp;
         }
     }
+    else if(p != NULL && p->leftChild != NULL && p->rightChild != NULL && p->data == val){
+        if(p->leftChild->rightChild != NULL){
+            node* tempLeft = p->leftChild;
+            if(tempLeft->rightChild != NULL){
+                tempLeft = tempLeft->rightChild;
+                temp = p;
+                tempLeft->leftChild = p->leftChild;
+                tempLeft->rightChild = p->rightChild;
+                free(temp);
+            }
+        }
+        else{
+            temp = p;
+            p->leftChild->rightChild = p->rightChild;
+            p = p->leftChild;
+            free(temp);
+            return p;
+        }
+
+    }
     else{
         if(p != NULL && p->leftChild != NULL){
-            deletion(p->leftChild,val);
+            p->leftChild = deletion(p->leftChild,val);
         }
         if(p != NULL && p->rightChild != NULL){
-            deletion(p->rightChild,val);
+            p->rightChild = deletion(p->rightChild,val);
         }
     }
+    return p;
 }
 void main(){
     setbuf(stdout, 0);
@@ -160,7 +181,7 @@ void main(){
             int val;
             scanf("%d", &val);
             printf("\n");
-            deletion(root,val);
+            root = deletion(root,val);
         }
         else if(temp == 3){
             printf("Select Traversal Option 1 : preorder , 2 : inorder , 3 : postorder\n");

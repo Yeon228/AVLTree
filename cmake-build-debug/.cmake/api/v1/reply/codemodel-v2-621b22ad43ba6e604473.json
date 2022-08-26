@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "C:/Users/kdy96/CLionProjects/temp/cmake-build-debug",
-		"source" : "C:/Users/kdy96/CLionProjects/temp"
+		"build" : "C:/Users/doyeon/Desktop/AVLTree/cmake-build-debug",
+		"source" : "C:/Users/doyeon/Desktop/AVLTree"
 	},
 	"version" : 
 	{
